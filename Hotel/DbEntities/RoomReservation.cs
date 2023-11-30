@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Google.Protobuf.WellKnownTypes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,7 @@ namespace Hotel.DbEntities
     {
         public int RoomNumber { get; set; }
         public int ReservationId { get; set; }
+        public bool Deleted { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }

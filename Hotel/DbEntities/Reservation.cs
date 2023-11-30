@@ -15,6 +15,6 @@ namespace Hotel.DbEntities
         public int ClientID { get; set; }
         public string TratamentType { get; set; }
         public bool Deleted { get; set; }
-        public Timestamp CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
