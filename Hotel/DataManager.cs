@@ -228,10 +228,10 @@ namespace Hotel
         }
 
         //return all reservations from db that are not deleted
-        public List<object[]> GetRoomReservations()
+        public List<Dictionary<string,object>> GetRoomReservations()
         {
             Connection.Open();
-            string query = "SELECT room.Number,re.CheckIn,re.CheckOut,client.ID " +
+            string query = "SELECT room.Number,re.CheckIn,re.CheckOut,client.ID,Client.Name " +
                 "FROM room_reservation AS rr " +
                 "INNER JOIN room ON rr.RoomNumber = room.Number " +
                 "INNER JOIN reservation AS re ON rr.ReservationId = re.ID " +
@@ -239,26 +239,22 @@ namespace Hotel
                 "WHERE rr.Deleted = 0";
             MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
-
-            List<object[]> list = new List<object[]>();
+            List<Dictionary<string, object>> list = new List<Dictionary<string, object>>();
             while (reader.Read())
             {
-                //object structure
-                //{
-                // RoomNumber = int
-                // CheckIn = DateTime
-                // CheckOut = DateTime
-                // ClientID = int
-                //}
-                object[] tmp = new object[4];
-                tmp[0] = reader.GetInt32("Number");
-                tmp[1] = reader.GetDateTime("CheckIn");
-                tmp[2] = reader.GetDateTime("CheckOut");
-                tmp[3] = reader.GetInt32("ID");
+                Dictionary<string, object> tmp = new()
+                {
+                    { "RoomNumber", reader.GetInt32("Number") },
+                    { "CheckIn", reader.GetDateTime("CheckIn") },
+                    { "CheckOut", reader.GetDateTime("CheckOut") },
+                    { "ClientID", reader.GetInt32("ID") },
+                    { "ClientName", reader.GetString("Name") }
+                };
                 list.Add(tmp);
             }
             return list;
         } 
+
         #endregion
         #region RoomReservation
         public void AddRoomReservation(int ReservationId, int RoomNumber)
