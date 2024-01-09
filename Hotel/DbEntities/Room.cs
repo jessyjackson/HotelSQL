@@ -14,5 +14,18 @@ namespace Hotel.DbEntities
         public int TypeId { get; set; }
         public bool Deleted { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public override bool Equals(object ?obj)
+        {
+            return obj != null && obj is Room room && room.Number == Number;
+        }
+        public override int GetHashCode()
+        {
+            return Number.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return "Room number: " + Number.ToString() +" \n" + "Max People: " + MaxPeople;
+        }
     }
 }

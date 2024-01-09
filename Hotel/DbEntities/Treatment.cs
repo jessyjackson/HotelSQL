@@ -13,5 +13,11 @@ namespace Hotel.DbEntities
         public double Price { get; set; }
         public bool Deleted { get; set; }
         public DateTime CreatedAt { get; set; }
+        public override string ToString()
+        {
+            return Name;
+        }
+
     }
+
 }

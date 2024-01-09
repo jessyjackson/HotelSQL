@@ -10,11 +10,13 @@ namespace Hotel.DbEntities
     internal class Reservation
     {
         public int ID { get; set; }
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get; set; }
-        public int ClientID { get; set; }
-        public string TratamentType { get; set; }
+        public DateTime? CheckIn { get; set; }
+        public DateTime? CheckOut { get; set; }
+        public int? ClientID { get; set; }
+        public string TreatamentType { get; set; }
         public bool Deleted { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        public Client ?Client { get; set; }
     }
 }
