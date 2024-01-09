@@ -24,6 +24,35 @@ namespace Hotel
             skinManager.Theme = MaterialSkinManager.Themes.LIGHT;
             skinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
         }
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            DataManager = new();
+            DateTime dt = DateTime.Now;
+            FillHomeDatagrid(dt, dt.AddDays(DateTime.DaysInMonth(dt.Year, dt.Month) - dt.Day));
+            FillClientsDataWiew();
+            FillServicesDataWiew();
+            FillRoomTypesDataWiew();
+            FillTreatmentDataWiew();
+            FillRoomsDataWiew();
+            FillReservationDataWiew();
+            AddPeopleToCombobox(10);
+            AddRoomTypeToListBox();
+            AddRoomServicesToListBox();
+            AddTreatmentToListBox();
+            AddClientToListBox();
+            ReservationDateTimePickerEnable(true);
+
+            //style
+
+            StyleDataGrid(dtgClients);
+            StyleDataGrid(dtgRoomsType);
+            StyleDataGrid(dtgServices);
+            StyleDataGrid(dtgTreatment);
+            StyleAllRoomsDataGrid();
+            StyleViewAllReservationsDataGrid();
+
+        }
+        #region style
         public void StyleViewAllReservationsDataGrid()
         {
             dtgViewAllReservations.AllowUserToAddRows = false;
@@ -87,7 +116,7 @@ namespace Hotel
             d.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             d.Columns[0].ReadOnly = true;
         }
-
+        #endregion
         #region Home 
         public void FillHomeDatagrid(DateTime dtStart, DateTime dtEnd)
         {
@@ -192,35 +221,6 @@ namespace Hotel
             }
         }
         #endregion
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            DataManager = new();
-            DateTime dt = DateTime.Now;
-            FillHomeDatagrid(dt, dt.AddDays(DateTime.DaysInMonth(dt.Year, dt.Month) - dt.Day));
-            FillClientsDataWiew();
-            FillServicesDataWiew();
-            FillRoomTypesDataWiew();
-            FillTreatmentDataWiew();
-            FillRoomsDataWiew();
-            FillReservationDataWiew();
-            AddPeopleToCombobox(10);
-            AddRoomTypeToListBox();
-            AddRoomServicesToListBox();
-            AddTreatmentToListBox();
-            AddClientToListBox();
-            ReservationDateTimePickerEnable(true);
-
-            //style
-
-            StyleDataGrid(dtgClients);
-            StyleDataGrid(dtgRoomsType);
-            StyleDataGrid(dtgServices);
-            StyleDataGrid(dtgTreatment);
-            StyleAllRoomsDataGrid();
-            StyleViewAllReservationsDataGrid();
-
-        }
         #region Fill DataWiew
         public void FillReservationDataWiew()
         {
@@ -247,7 +247,6 @@ namespace Hotel
             dtgAllRoom.DataSource = DataManager.GetAllRoomsForDataTable();
         }
         #endregion
-
         #region Validation
         private static bool NameValidation(string input)
         {
@@ -437,6 +436,43 @@ namespace Hotel
             lstAddReservationClient.SelectedIndex = 0;
             ReservationDateTimePickerEnable(false);
         }
+        private void btnChangeDate_Click(object sender, EventArgs e)
+        {
+            ReservationDateTimePickerEnable(true);
+            lstAddResrvationRoomAvailable.DataSource = null;
+        }
+        private void btnDeleteReservation_Click(object sender, EventArgs e)
+        {
+            DataTable? dt = dtgViewAllReservations.DataSource as DataTable;
+            DataManager.DeleteReservations(dt);
+            FillReservationDataWiew();
+            lstAddResrvationRoomAvailable.DataSource = null;
+        }
+        private void btnAddReservation_Click(object sender, EventArgs e)
+        {
+            DateTime start = dtpAddReservationCheckIn.Value;
+            DateTime end = dtpAddReservationCheckOut.Value;
+            if (lstAddResrvationRoomAvailable.SelectedIndex == -1)
+            {
+                MessageBox.Show("Select a room");
+                return;
+            }
+            if (lstAddReservationClient.SelectedIndex == -1)
+            {
+                MessageBox.Show("Select a client");
+                return;
+            }
+            if (lstAddReservationTreatment.SelectedIndex == -1)
+            {
+                MessageBox.Show("Select a treatment");
+                return;
+            }
+            DataManager.AddReservation(start, end, ((Client)lstAddReservationClient.SelectedItem).ID, (cboAddReservationPeopleNum.SelectedIndex + 1), ((Treatment)lstAddReservationTreatment.SelectedItem).Name, ((Room)lstAddResrvationRoomAvailable.SelectedItem).Number);
+            MessageBox.Show("Reservation added");
+            FillReservationDataWiew();
+            ReservationDateTimePickerEnable(true);
+            lstAddResrvationRoomAvailable.DataSource = null;
+        }
         #endregion
         #region cell validating
         private void dtgClientsCellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -505,17 +541,6 @@ namespace Hotel
                 clstAddRoomServices.Items.Add(item);
             }
         }
-        #endregion
-
-
-        public void ReservationDateTimePickerEnable(bool enable)
-        {
-            dtpAddReservationCheckIn.Enabled = enable;
-            dtpAddReservationCheckOut.Enabled = enable;
-            cboAddReservationPeopleNum.Enabled = enable;
-            btnAddReservationDate.Enabled = enable;
-            btnChangeDate.Enabled = !enable;
-        }
         public void AddPeopleToCombobox(int peopleNumber)
         {
             cboAddReservationPeopleNum.Items.Clear();
@@ -524,34 +549,15 @@ namespace Hotel
                 cboAddReservationPeopleNum.Items.Add(i);
             }
         }
-
-        private void btnAddReservation_Click(object sender, EventArgs e)
+        #endregion
+        public void ReservationDateTimePickerEnable(bool enable)
         {
-            DateTime start = dtpAddReservationCheckIn.Value;
-            DateTime end = dtpAddReservationCheckOut.Value;
-            if (lstAddResrvationRoomAvailable.SelectedIndex == -1)
-            {
-                MessageBox.Show("Select a room");
-                return;
-            }
-            if (lstAddReservationClient.SelectedIndex == -1)
-            {
-                MessageBox.Show("Select a client");
-                return;
-            }
-            if (lstAddReservationTreatment.SelectedIndex == -1)
-            {
-                MessageBox.Show("Select a treatment");
-                return;
-            }
-            DataManager.AddReservation(start, end, ((Client)lstAddReservationClient.SelectedItem).ID, (cboAddReservationPeopleNum.SelectedIndex + 1), ((Treatment)lstAddReservationTreatment.SelectedItem).Name, ((Room)lstAddResrvationRoomAvailable.SelectedItem).Number);
-            MessageBox.Show("Reservation added");
-            FillReservationDataWiew();
-            ReservationDateTimePickerEnable(true);
-            lstAddResrvationRoomAvailable.DataSource = null;
+            dtpAddReservationCheckIn.Enabled = enable;
+            dtpAddReservationCheckOut.Enabled = enable;
+            cboAddReservationPeopleNum.Enabled = enable;
+            btnAddReservationDate.Enabled = enable;
+            btnChangeDate.Enabled = !enable;
         }
-
-
         private void HomeTabSelecting(object sender, TabControlCancelEventArgs e)
         {
             switch (e.TabPage.Name)
@@ -586,18 +592,5 @@ namespace Hotel
             }
         }
 
-        private void btnChangeDate_Click(object sender, EventArgs e)
-        {
-            ReservationDateTimePickerEnable(true);
-            lstAddResrvationRoomAvailable.DataSource = null;
-        }
-
-        private void btnDeleteReservation_Click(object sender, EventArgs e)
-        {
-            DataTable? dt = dtgViewAllReservations.DataSource as DataTable;
-            DataManager.DeleteReservations(dt);
-            FillReservationDataWiew();
-            lstAddResrvationRoomAvailable.DataSource = null;
-        }
     }
 }
