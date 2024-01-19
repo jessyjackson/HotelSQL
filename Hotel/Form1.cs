@@ -100,7 +100,7 @@ namespace Hotel
             }
             foreach (DataGridViewRow row in dtgRoomsReservation.Rows)
             {
-                row.Height = 50;
+                row.Height = 55;
             }
 
         }
@@ -415,7 +415,7 @@ namespace Hotel
         {
             DateTime start = dtpAddReservationCheckIn.Value;
             DateTime end = dtpAddReservationCheckOut.Value;
-            if (start >= end)
+            if (start.Date >= end.Date)
             {
                 MessageBox.Show("Check in date must be before check out date");
                 return;

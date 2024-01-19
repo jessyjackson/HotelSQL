@@ -145,9 +145,9 @@
             TREATMENT.Controls.Add(dtgTreatment);
             TREATMENT.Controls.Add(groupBox4);
             TREATMENT.ImageKey = "treatment.png";
-            TREATMENT.Location = new Point(4, 31);
+            TREATMENT.Location = new Point(4, 24);
             TREATMENT.Name = "TREATMENT";
-            TREATMENT.Size = new Size(1495, 765);
+            TREATMENT.Size = new Size(1495, 772);
             TREATMENT.TabIndex = 6;
             TREATMENT.Text = "Treatment";
             TREATMENT.UseVisualStyleBackColor = true;
@@ -219,7 +219,7 @@
             btnAddTreatment.NoAccentTextColor = Color.Empty;
             btnAddTreatment.Size = new Size(136, 36);
             btnAddTreatment.TabIndex = 6;
-            btnAddTreatment.Text = "Add Room Type";
+            btnAddTreatment.Text = "Add Treatment";
             btnAddTreatment.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             btnAddTreatment.UseAccentColor = false;
             btnAddTreatment.UseVisualStyleBackColor = true;
@@ -297,9 +297,9 @@
             ROOM_TYPE.Controls.Add(dtgRoomsType);
             ROOM_TYPE.Controls.Add(groupBox3);
             ROOM_TYPE.ImageKey = "room_type.png";
-            ROOM_TYPE.Location = new Point(4, 31);
+            ROOM_TYPE.Location = new Point(4, 24);
             ROOM_TYPE.Name = "ROOM_TYPE";
-            ROOM_TYPE.Size = new Size(1495, 765);
+            ROOM_TYPE.Size = new Size(1495, 772);
             ROOM_TYPE.TabIndex = 5;
             ROOM_TYPE.Text = "Room type";
             ROOM_TYPE.UseVisualStyleBackColor = true;
@@ -449,9 +449,9 @@
             SERVICE.Controls.Add(dtgServices);
             SERVICE.Controls.Add(groupBox2);
             SERVICE.ImageKey = "bathrobe.png";
-            SERVICE.Location = new Point(4, 31);
+            SERVICE.Location = new Point(4, 24);
             SERVICE.Name = "SERVICE";
-            SERVICE.Size = new Size(1495, 765);
+            SERVICE.Size = new Size(1495, 772);
             SERVICE.TabIndex = 4;
             SERVICE.Text = "Service";
             SERVICE.UseVisualStyleBackColor = true;
@@ -605,9 +605,9 @@
             ROOM.Controls.Add(groupBox6);
             ROOM.Controls.Add(groupBox7);
             ROOM.ImageKey = "bed.png";
-            ROOM.Location = new Point(4, 31);
+            ROOM.Location = new Point(4, 24);
             ROOM.Name = "ROOM";
-            ROOM.Size = new Size(1495, 765);
+            ROOM.Size = new Size(1495, 772);
             ROOM.TabIndex = 2;
             ROOM.Text = "Room";
             ROOM.UseVisualStyleBackColor = true;
@@ -784,10 +784,10 @@
             CLIENT.Controls.Add(dtgClients);
             CLIENT.Controls.Add(groupBox1);
             CLIENT.ImageKey = "client.png";
-            CLIENT.Location = new Point(4, 31);
+            CLIENT.Location = new Point(4, 24);
             CLIENT.Name = "CLIENT";
             CLIENT.Padding = new Padding(3);
-            CLIENT.Size = new Size(1495, 765);
+            CLIENT.Size = new Size(1495, 772);
             CLIENT.TabIndex = 1;
             CLIENT.Text = "Client";
             CLIENT.UseVisualStyleBackColor = true;
@@ -983,9 +983,9 @@
             RESERVATION.Controls.Add(lstAddResrvationRoomAvailable);
             RESERVATION.Controls.Add(groupBox5);
             RESERVATION.ImageKey = "reserve.png";
-            RESERVATION.Location = new Point(4, 31);
+            RESERVATION.Location = new Point(4, 24);
             RESERVATION.Name = "RESERVATION";
-            RESERVATION.Size = new Size(1495, 765);
+            RESERVATION.Size = new Size(1495, 772);
             RESERVATION.TabIndex = 3;
             RESERVATION.Text = "Reservation";
             RESERVATION.UseVisualStyleBackColor = true;
@@ -1157,10 +1157,10 @@
             HOME.Controls.Add(dtgRoomsReservation);
             HOME.Controls.Add(dtpHomeStart);
             HOME.ImageKey = "home.png";
-            HOME.Location = new Point(4, 31);
+            HOME.Location = new Point(4, 24);
             HOME.Name = "HOME";
             HOME.Padding = new Padding(3);
-            HOME.Size = new Size(1495, 765);
+            HOME.Size = new Size(1495, 772);
             HOME.TabIndex = 0;
             HOME.Text = "Home";
             HOME.UseVisualStyleBackColor = true;
@@ -1175,12 +1175,13 @@
             // 
             // dtgRoomsReservation
             // 
+            dtgRoomsReservation.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dtgRoomsReservation.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dtgRoomsReservation.Location = new Point(37, 70);
             dtgRoomsReservation.Name = "dtgRoomsReservation";
             dtgRoomsReservation.ReadOnly = true;
             dtgRoomsReservation.RowTemplate.Height = 25;
-            dtgRoomsReservation.Size = new Size(1300, 677);
+            dtgRoomsReservation.Size = new Size(1428, 677);
             dtgRoomsReservation.TabIndex = 0;
             // 
             // dtpHomeStart
@@ -1202,7 +1203,6 @@
             materialTabControl1.Controls.Add(TREATMENT);
             materialTabControl1.Depth = 0;
             materialTabControl1.Dock = DockStyle.Fill;
-            materialTabControl1.ImageList = imageList1;
             materialTabControl1.Location = new Point(3, 64);
             materialTabControl1.MouseState = MaterialSkin.MouseState.HOVER;
             materialTabControl1.Multiline = true;
@@ -1218,7 +1218,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1509, 867);
             Controls.Add(materialTabControl1);
-            DrawerShowIconsWhenHidden = true;
             DrawerTabControl = materialTabControl1;
             Name = "Form1";
             Text = "Hotel";

@@ -272,9 +272,7 @@ namespace Hotel
         public List<Room> GetAllFreeRoomsByPeriod(DateTime checkin,DateTime checkout,int numPeople)
         {
             Connection.Open();
-            string query = @"SELECT DISTINCT * FROM room " +
-                            "WHERE room.Number NOT IN (SELECT r.RoomNum FROM reservation AS r WHERE " +
-                            "(r.CheckIn <= @checkout AND r.CheckOut >= @checkin)) AND room.MaxPeople >= @numpeople AND Deleted = 0";
+            string query = @"SELECT DISTINCT * FROM room WHERE room.Number NOT IN (SELECT r.RoomNum FROM reservation AS r WHERE (r.CheckIn <= @checkout AND r.CheckOut >= @checkin)) AND room.MaxPeople >= @numpeople AND Deleted = 0";
             MySqlCommand cmd = new MySqlCommand(query, Connection);
             cmd.Parameters.AddWithValue("checkin", checkin.ToString("yyyy-MM-dd") );
             cmd.Parameters.AddWithValue("checkout", checkout.ToString("yyyy-MM-dd"));
@@ -332,11 +330,7 @@ namespace Hotel
             //                "LEFT JOIN client AS c ON re.ClientID = c.ID;";
 
             //query per connessione 1 - n
-            string query = @"SELECT r.Number,r.MaxPeople,re.CheckIn,re.CheckOut,re.ClientID,c.Name " +
-                "FROM room AS r " +
-                "LEFT JOIN reservation AS re ON re.RoomNum = r.Number " +
-                "LEFT JOIN client AS c ON re.ClientID = c.ID " +
-                "WHERE re.Deleted = 0 OR re.Deleted IS NULL";
+            string query = @"SELECT r.Number,r.MaxPeople,re.CheckIn,re.CheckOut,re.ClientID,c.Name FROM room AS r LEFT JOIN reservation AS re ON re.RoomNum = r.Number LEFT JOIN client AS c ON re.ClientID = c.ID WHERE re.Deleted = 0 OR re.Deleted IS NULL";
 
             MySqlCommand cmd = new MySqlCommand(query, Connection);
 
