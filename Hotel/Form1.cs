@@ -1,5 +1,9 @@
 using System.Data;
+using System.Security.Cryptography;
+using System.Security.Policy;
+using System.Text;
 using System.Text.RegularExpressions;
+using Google.Protobuf.WellKnownTypes;
 using Hotel.DbEntities;
 using MaterialSkin;
 using MaterialSkin.Controls;
@@ -166,9 +170,7 @@ namespace Hotel
 
                         int columnIndex = GetColumnIndexByDate(start.ToString("dd/MM/yyyy"));
                         Random random = new();
-                        int red = random.Next(128, 256);
-                        int green = random.Next(128, 256);
-                        int blue = random.Next(128, 256);
+                        (int red, int green, int blue) = getColor(reservation);
                         var color = System.Drawing.Color.FromArgb(days, green, blue);
                         for (var i = start.Date; i <= end; i = i.AddDays(1))
                         {
@@ -193,6 +195,23 @@ namespace Hotel
                 index++;
             }
             StyleHomeDataGrid();
+        }
+        private (int,int,int) getColor(Reservation reservation)
+        {
+            string value = reservation.Client.Name + reservation.ID + reservation.TreatamentType;
+            SHA256 sha256Hash = SHA256.Create();
+            var byteArray = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(value));
+            string sha256String = Convert.ToHexString(byteArray);
+ 
+
+            string hashPortion = sha256String.Substring(0, 6);
+            int r = Convert.ToInt32(hashPortion.Substring(0, 2), 16);
+            int g = Convert.ToInt32(hashPortion.Substring(2, 2), 16);
+            int b = Convert.ToInt32(hashPortion.Substring(4, 2), 16);
+            int lightR = Math.Min(255, r + 100);
+            int lightG = Math.Min(255, g + 100);
+            int lightB = Math.Min(255, b + 100);
+            return (lightR, lightG, lightB);
         }
         private int GetColumnIndexByDate(string date)
         {
